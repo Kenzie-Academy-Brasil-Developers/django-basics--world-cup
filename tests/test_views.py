@@ -101,9 +101,11 @@ class TeamViewsTest(APITestCase):
             "titles": 1000,
             "top_scorer": "Alejo",
             "fifa_code": "BRR",
-            "founded_at": "2022-03-03"
+            "founded_at": "2022-03-03",
         }
-        response = self.client.patch(self.BASE_DETAIL_URL, data=team_1_patch_data, format='json')
+        response = self.client.patch(
+            self.BASE_DETAIL_URL, data=team_1_patch_data, format="json"
+        )
 
         expected_status_code = status.HTTP_200_OK
         result_status_code = response.status_code
@@ -123,7 +125,7 @@ class TeamViewsTest(APITestCase):
             obj_value = getattr(team, key)
             if isinstance(obj_value, date):
                 obj_value = obj_value.strftime("%Y-%m-%d")
-            msg = f'Verifique se as alterações no campo `{key}` foram persistidas no banco'
+            msg = f"Verifique se as alterações no campo `{key}` foram persistidas no banco"
             self.assertEqual(value, obj_value, msg)
 
     def test_if_a_team_can_be_deleted(self):
@@ -152,7 +154,7 @@ class TeamViewsTest(APITestCase):
 
         msg = "Verifique se o registro está sendo deletado do banco corretamente"
         self.assertFalse(Team.objects.exists(), msg)
-       
+
     def test_if_non_existing_id_deletion(self):
         non_existing_id_url = self.BASE_URL + "12234/"
         response = self.client.delete(non_existing_id_url)
