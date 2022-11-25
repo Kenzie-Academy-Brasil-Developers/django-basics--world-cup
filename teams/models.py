@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms.models import model_to_dict
 
 
 class Team(models.Model):
@@ -10,3 +11,17 @@ class Team(models.Model):
 
     def __repr__(self) -> str:
         return f"[{self.id}] {self.name} - {self.fifa_code}"
+
+    def to_dict(self) -> dict:
+        return model_to_dict(self)
+
+    @classmethod
+    def to_list_dict(cls) -> list[dict]:
+        teams = cls.objects.all()
+
+        teams_list = []
+        for team in teams:
+            team_dict = model_to_dict(team)
+            teams_list.append(team_dict)
+
+        return teams_list
