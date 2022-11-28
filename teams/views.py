@@ -16,8 +16,8 @@ class TeamViewById(APIView):
     def get(self, _: Request, team_id: str):
         try:
             team = Team.objects.get(id=team_id).to_dict()
-        except Team.DoesNotExist as error:
-            return Response({"message": str(error)}, status.HTTP_404_NOT_FOUND)
+        except Team.DoesNotExist:
+            return Response({"message": "Team not found"}, status.HTTP_404_NOT_FOUND)
 
         return Response(team, status.HTTP_200_OK)
 
@@ -25,8 +25,8 @@ class TeamViewById(APIView):
         try:
             team = Team.objects.get(id=team_id)
 
-        except Team.DoesNotExist as error:
-            return Response({"message": str(error)}, status.HTTP_404_NOT_FOUND)
+        except Team.DoesNotExist:
+            return Response({"message": "Team not found"}, status.HTTP_404_NOT_FOUND)
 
         for key, value in request.data.items():
             setattr(team, key, value)
