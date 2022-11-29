@@ -36,10 +36,10 @@ class TeamViewById(APIView):
 
     def delete(self, _: Request, team_id: str):
         try:
-            person = Team.objects.get(id=team_id)
+            team = Team.objects.get(id=team_id)
         except Team.DoesNotExist:
             return Response({"message": "Team not found"}, status.HTTP_404_NOT_FOUND)
 
-        person.delete()
+        team.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
